@@ -9,12 +9,13 @@ const dirname = path.dirname(filename);
 
 app.use(express.static(path.join(dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.set('view engine', 'ejs');
 app.set('views', path.join(dirname, 'views'));
 
 const chat = {
     users: [],
-    history: [];
+    history: [],
 };
 
 app.post('/join', (req, res) => {
@@ -25,6 +26,10 @@ app.post('/join', (req, res) => {
         datetime: new Date()
     })
     res.render('chat');
+});
+
+app.get('/poll', (req, res) => {
+    res.status(200).json(chat);
 });
 
 app.listen(3000, () => {
